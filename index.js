@@ -4,13 +4,25 @@ const typeDefs = gql`
 
   scalar Date
 
+  type User {
+    id: ID!
+    name: String!
+    lastname: String!
+    fullname: String!
+    email: String
+    weight: Float!
+    height: Float!
+    age: Int!
+    vip: Boolean!
+  }
+
   # Pontos de entradas da API
   type Query {
     now: String!
     otherNow: Date!
+    user: User
   }
 `
-
 const resolvers = {
   Query: {
     now: () => {
@@ -24,10 +36,26 @@ const resolvers = {
     },
     otherNow: () => {
       return new Date()
+    },
+    user: () => {
+      return {
+        id: 1,
+        name: 'Diego',
+        lastname: 'Almeida',
+        email: 'dyhalmeida@gmail.com',
+        weight: 90,
+        height: 175,
+        age: 29,
+        vip: true
+      }
+    }
+  },
+  User: {
+    fullname: (parent) => {
+      return `${parent.name} ${parent.lastname}`
     }
   }
 }
-
 
 const server = new ApolloServer({
   typeDefs,
