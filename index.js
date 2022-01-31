@@ -4,6 +4,14 @@ const typeDefs = gql`
 
   scalar Date
 
+  type Product {
+    id: ID!
+    name: String!
+    price: Float!
+    discount: Int
+    priceWithDiscount: Float
+  }
+
   type User {
     id: ID!
     name: String!
@@ -21,6 +29,7 @@ const typeDefs = gql`
     now: String!
     otherNow: Date!
     user: User
+    product: Product
   }
 `
 const resolvers = {
@@ -48,11 +57,27 @@ const resolvers = {
         age: 29,
         vip: true
       }
+    },
+    product: () => {
+      return {
+        id: 1,
+        name: 'Monitor LG Ultra HD',
+        price: 2130.50,
+        discount: 20
+      }
     }
   },
   User: {
     fullname: (parent) => {
       return `${parent.name} ${parent.lastname}`
+    }
+  },
+  Product: {
+    priceWithDiscount: (parent) => {
+      if (parent.discount) {
+        return parent.price * (1 - (parent.discount / 100))
+      }
+      return parent.price
     }
   }
 }
