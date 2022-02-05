@@ -1,0 +1,17 @@
+type User {
+  id: ID!
+  name: String!
+  lastname: String!
+  fullname: String!
+  email: String
+  weight: Float!
+  height: Float!
+  age: Int!
+  vip: Boolean!
+  profile: Profile
+}
+
+type Profile {
+  id: Int!
+  name: String!
+}

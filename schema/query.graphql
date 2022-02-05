@@ -1,0 +1,12 @@
+# Pontos de entradas da API
+type Query {
+  now: String!
+  otherNow: Date!
+  user: User
+  product: Product
+  megaSena: [Int!]!
+  users: [User!]!
+  userById(id: Int): User
+  profiles: [Profile!]
+  profile(id: Int): Profile
+}
