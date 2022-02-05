@@ -9,7 +9,8 @@ const users = [
     weight: 90,
     height: 175,
     age: 29,
-    vip: true
+    vip: true,
+    profileId: 1
   },
   {
     id: 2,
@@ -19,7 +20,8 @@ const users = [
     weight: 25,
     height: 100,
     age: 6,
-    vip: true
+    vip: true,
+    profileId: 1
   },
   {
     id: 3,
@@ -29,8 +31,20 @@ const users = [
     weight: 50,
     height: 165,
     age: 25,
-    vip: true
+    vip: true,
+    profileId: 2
   },
+]
+
+const profiles = [
+  {
+    id: 1,
+    name: 'comum'
+  },
+  {
+    id: 2,
+    name: 'administrador'
+  }
 ]
 
 const typeDefs = gql`
@@ -55,6 +69,12 @@ const typeDefs = gql`
     height: Float!
     age: Int!
     vip: Boolean!
+    profile: Profile
+  }
+
+  type Profile {
+    id: Int!
+    name: String!
   }
 
   # Pontos de entradas da API
@@ -66,6 +86,8 @@ const typeDefs = gql`
     megaSena: [Int!]!
     users: [User!]!
     userById(id: Int): User
+    profiles: [Profile!]
+    profile(id: Int): Profile
   }
 `
 const resolvers = {
@@ -113,11 +135,20 @@ const resolvers = {
     },
     users: () => {
       return users
+    },
+    profiles: () => {
+      return profiles
+    },
+    profile: (_, { id }) => {
+      return profiles.find(profile => profile.id === id)
     }
   },
   User: {
     fullname: (parent) => {
       return `${parent.name} ${parent.lastname}`
+    },
+    profile: (parent) => {
+      return profiles.find(profile => profile.id === parent.profileId)
     }
   },
   Product: {
