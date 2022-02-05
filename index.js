@@ -65,6 +65,7 @@ const typeDefs = gql`
     product: Product
     megaSena: [Int!]!
     users: [User!]!
+    userById(id: Int): User
   }
 `
 const resolvers = {
@@ -92,6 +93,10 @@ const resolvers = {
         age: 29,
         vip: true
       }
+    },
+    userById: (_, { id }) => {
+      const user = users.find(user => user.id === id)
+      return user
     },
     product: () => {
       return {
