@@ -1,0 +1,4 @@
+# Pontos de entradas da API
+type Mutation {
+  createUser(name: String!, lastname: String!, age: Int!, email: String!): User!
+}

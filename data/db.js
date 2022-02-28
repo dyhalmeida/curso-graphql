@@ -1,6 +1,10 @@
+const crypto = require('crypto')
+
+const getUUID = () => crypto.randomUUID()
+
 const users = [
   {
-    id: 1,
+    id: getUUID(),
     name: 'Diego',
     lastname: 'Almeida',
     email: 'dyhalmeida@gmail.com',
@@ -11,7 +15,7 @@ const users = [
     profileId: 1
   },
   {
-    id: 2,
+    id: getUUID(),
     name: 'Laura',
     lastname: 'Anghel',
     email: 'lauraanghel@gmail.com',
@@ -22,7 +26,7 @@ const users = [
     profileId: 1
   },
   {
-    id: 3,
+    id: getUUID(),
     name: 'Pricila',
     lastname: 'Mayara',
     email: 'pricilamayara@gmail.com',
@@ -47,5 +51,6 @@ const profiles = [
 
 module.exports = {
   users,
-  profiles
+  profiles,
+  getUUID
 }
