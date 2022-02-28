@@ -1,7 +1,0 @@
-type Product {
-  id: ID!
-  name: String!
-  price: Float!
-  discount: Int
-  priceWithDiscount: Float
-}
