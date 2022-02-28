@@ -22,4 +22,10 @@ module.exports = {
     users.push(userCreated)
     return userCreated
   },
+  deleteUserById: (_, { id }) => {
+    const index = users.findIndex(user => user.id === id)
+    if (!index) return null
+    const [deleted] = users.splice(index, 1)
+    return deleted ? deleted : null
+  }
 }
