@@ -11,11 +11,6 @@ type User {
   profile: Profile
 }
 
-type Profile {
-  id: Int!
-  name: String!
-}
-
 input AddUser {
   name: String
   lastname: String
@@ -26,4 +21,21 @@ input AddUser {
 input UserFilters {
   id: ID
   email: String
+}
+
+type Profile {
+  id: Int!
+  name: String!
+}
+
+input AddProfile {
+  name: String
+}
+
+input ProfileFilters {
+  id: ID
+}
+
+input AddProfile {
+  name: String
 }

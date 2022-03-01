@@ -3,4 +3,7 @@ type Mutation {
   createUser(add: AddUser!): User!
   deleteUserById(filters: UserFilters): User
   updateUser(filters: UserFilters, data: AddUser): User
+  createProfile(add: AddProfile): Profile
+  deleteProfileById(filters: ProfileFilters): Profile
+  updateProfile(filters: ProfileFilters, data: AddProfile): Profile
 }
