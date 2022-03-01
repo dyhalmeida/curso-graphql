@@ -1,4 +1,4 @@
-const { users, profiles } = require('../data/db')
+const { users } = require('../../data/db')
 
 module.exports = {
   user: () => {
@@ -19,11 +19,5 @@ module.exports = {
   },
   users: () => {
     return users
-  },
-  profiles: () => {
-    return profiles
-  },
-  profile: (_, { id }) => {
-    return profiles.find(profile => profile.id === id)
   }
 }
