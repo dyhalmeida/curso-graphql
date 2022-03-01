@@ -15,3 +15,15 @@ type Profile {
   id: Int!
   name: String!
 }
+
+input AddUser {
+  name: String
+  lastname: String
+  age: Int
+  email: String
+}
+
+input UserFilters {
+  id: ID
+  email: String
+}
