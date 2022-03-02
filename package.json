@@ -1,0 +1,12 @@
+{
+  "name": "graphQL",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:dyhalmeida/curso-graphql.git",
+  "author": "Diego Almeida <dyhalmeida@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^1.0.3",
+    "mysql": "^2.18.1"
+  }
+}

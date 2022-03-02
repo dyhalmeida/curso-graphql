@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./containers/mysql/data:/var/lib/mysql
+    environment:
+      # MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '3306:3306'
+    networks:
+      - 'infralocal_main'
+
+networks:
+  infralocal_main:
+    external: true
+    name: infralocal_main
