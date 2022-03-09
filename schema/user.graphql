@@ -1,0 +1,30 @@
+type User {
+  id: ID!
+  name: String!
+  email: String
+  age: Int!
+  profiles: [Profile]
+}
+
+input UserInput {
+  name: String!
+  email: String!
+  age: Int!
+  password: String!
+}
+
+input UserFilters {
+  id: ID
+  email: String
+}
+
+extend type Query {
+  users: [User!]
+  user(filter: UserFilters!): User
+}
+
+extend type Mutation {
+  createUser(data: UserInput!): User!
+  deleteUser(filters: UserFilters): User
+  updateUser(filters: UserFilters, data: UserInput!): User
+}

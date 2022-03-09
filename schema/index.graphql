@@ -1,0 +1,13 @@
+#import Query, Mutation from 'user.graphql'
+#import Query, Mutation from 'profile.graphql'
+
+scalar Date
+scalar DateTime
+scalar Void
+
+type Query {
+  _: String
+}
+type Mutation {
+  _: String
+}

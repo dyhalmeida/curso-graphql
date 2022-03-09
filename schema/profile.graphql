@@ -1,0 +1,26 @@
+
+type Profile {
+  id: Int!
+  name: String!
+  role: String!
+}
+
+input ProfileInput {
+  name: String!
+  role: String!
+}
+
+input ProfileFilters {
+  id: ID
+}
+
+extend type Query {
+  profiles: [Profile!]
+  profile(filter: ProfileFilters!): Profile
+}
+
+extend type Mutation {
+  createProfile(data: ProfileInput!): Profile
+  deleteProfile(filters: ProfileFilters): Profile
+  updateProfile(filters: ProfileFilters, data: ProfileInput): Profile
+}
