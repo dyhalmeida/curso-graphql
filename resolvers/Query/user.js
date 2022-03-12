@@ -10,7 +10,14 @@ module.exports = {
   },
   user: (_, { filter }) => {
     try {
-      return knex.select('*').from('users').where({ id: filter.id }).first()
+      if (!filter) return null
+      if (filter.id) {
+        return knex.select('*').from('users').where({ id: filter.id }).first()
+      }
+      if (filter.email) {
+        return knex.select('*').from('users').where({ email: filter.email }).first()
+      }
+      return null
     } catch (error) {
       throw new Error("Internal server error")  
     }
