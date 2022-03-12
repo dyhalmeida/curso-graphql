@@ -6,11 +6,20 @@ type User {
   profiles: [Profile]
 }
 
-input UserInput {
+input UserInsertInput {
   name: String!
   email: String!
   age: Int!
   password: String!
+  profiles: [ProfileFilters]
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  age: Int
+  password: String
+  profiles: [ProfileFilters]
 }
 
 input UserFilters {
@@ -20,11 +29,11 @@ input UserFilters {
 
 extend type Query {
   users: [User!]
-  user(filter: UserFilters!): User
+  user(filters: UserFilters!): User
 }
 
 extend type Mutation {
-  createUser(data: UserInput!): User!
+  createUser(data: UserInsertInput!): User!
   deleteUser(filters: UserFilters): User
-  updateUser(filters: UserFilters, data: UserInput!): User
+  updateUser(filters: UserFilters, data: UserUpdateInput!): User
 }

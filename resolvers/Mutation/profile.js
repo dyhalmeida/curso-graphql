@@ -1,21 +1,27 @@
 const knex = require('../../config/db')
 
+const { profile: showProfile } = require('../Query/profile')
+
 module.exports = {
   createProfile: async (_, { data }) => {
     try {
       const [id] = await knex.insert(data).into('profiles')
-      const profile = await knex.select('*').from('profiles').where({ id }).first()
-      return profile
+      return knex.select('*').from('profiles').where({ id }).first()
     } catch (error) {
       throw new Error(error.sqlMessage)
     }
   },
   deleteProfile: async (_, { filters }) => {
     try {
-      const profileFound = await knex.select('*').from('profiles').where({ id: filters.id }).first()
-      if (!profileFound) throw new Error('Profile not found')
-      await knex.delete().from('profiles').where({ id: filters.id })
-      return profileFound
+
+      const profile = await showProfile(_, { filters })
+
+      if (!profile) return null
+
+      await knex.delete().from('users_profiles').where({ profile_id: profile.id })        
+      await knex.delete().from('profiles').where({ id: profile.id })        
+      return profile
+
     } catch (error) {
       if (error.sqlMessage || error.message) {
         throw new Error(error.sqlMessage || error.message)
@@ -24,8 +30,19 @@ module.exports = {
     } 
   },
   updateProfile: async (_, { filters, data }) => {
-    await knex('profiles').update({ ...data }).where({ id: filters.id })
-    const profile = await knex.select('*').from('profiles').where({ id: filters.id }).first()
-    return profile
+    try {
+      const profile = await showProfile(_, { filters })
+      if (!profile) return null
+
+      await knex('profiles').update({ ...data }).where({ id: profile.id })
+
+      return {...profile, ...data}
+      
+    } catch (error) {
+      if (error.sqlMessage || error.message) {
+        throw new Error(error.sqlMessage || error.message)
+      }
+      throw new Error('Internal server error')
+    }
   }
 }

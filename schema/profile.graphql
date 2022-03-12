@@ -3,11 +3,17 @@ type Profile {
   id: Int!
   name: String!
   role: String!
+  users: [User]
 }
 
-input ProfileInput {
+input ProfileInsertInput {
   name: String!
   role: String!
+}
+
+input ProfileUpdateInput {
+  name: String
+  role: String
 }
 
 input ProfileFilters {
@@ -17,11 +23,11 @@ input ProfileFilters {
 
 extend type Query {
   profiles: [Profile!]
-  profile(filter: ProfileFilters!): Profile
+  profile(filters: ProfileFilters!): Profile
 }
 
 extend type Mutation {
-  createProfile(data: ProfileInput!): Profile
+  createProfile(data: ProfileInsertInput!): Profile
   deleteProfile(filters: ProfileFilters): Profile
-  updateProfile(filters: ProfileFilters, data: ProfileInput): Profile
+  updateProfile(filters: ProfileFilters, data: ProfileUpdateInput): Profile
 }
