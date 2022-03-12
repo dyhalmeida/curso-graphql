@@ -12,6 +12,7 @@ input ProfileInput {
 
 input ProfileFilters {
   id: ID
+  name: String
 }
 
 extend type Query {

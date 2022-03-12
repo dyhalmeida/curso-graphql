@@ -10,7 +10,14 @@ module.exports = {
   },
   profile: async (_, { filter }) => {
     try {
-      return await knex.select('*').from('profiles').where({ id: filter.id }).first()
+      if (!filter) return null
+      if (filter.id) {
+        return knex.select('*').from('profiles').where({ id: filter.id }).first()
+      }
+      if (filter.name) {
+        return knex.select('*').from('profiles').where({ name: filter.name }).first()
+      }
+      return null
     } catch (error) {
       throw new Error("Internal server error")  
     }
