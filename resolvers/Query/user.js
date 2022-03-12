@@ -1,19 +1,16 @@
 const knex = require('../../config/db')
 
 module.exports = {
-  users: async () => {
+  users: () => {
     try {
-      const users = await knex.select('*').from('users')
-        .then(users => users.map(user => ({...user})))
-      return users
+      return knex.select('*').from('users')
     } catch (error) {
       throw new Error("Internal server error")  
     }
   },
-  user: async (_, { filter }) => {
+  user: (_, { filter }) => {
     try {
-      const user = await knex.select('*').from('users').where({ id: filter.id }).first()
-      return user
+      return knex.select('*').from('users').where({ id: filter.id }).first()
     } catch (error) {
       throw new Error("Internal server error")  
     }
