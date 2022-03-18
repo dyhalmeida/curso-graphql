@@ -1,22 +1,32 @@
 const knex = require('../../config/db')
+const bcrypt = require('bcrypt-nodejs')
 const { profile: showProfile } = require('../Query/profile')
 const { user: showUser } = require('../Query/user')
 
-
-module.exports = {
+const mutations = {
+  createPublicUser: async (_, { data }) => {
+    return mutations.createUser(_, { data })
+  },
   createUser: async (_, { data }) => {
     try {
 
       const profiles_id = []
 
-      if ( data.profiles ) {
-        for (const filters of data.profiles) {
-          const profile = await showProfile(_, { filters })
-          if (profile) profiles_id.push(profile.id)
-        }
+      if(!data.profiles || !data.profiles.length) {
+        data.profiles = [
+          { name: "comum" }
+        ]
+      }
+
+      for (const filters of data.profiles) {
+        const profile = await showProfile(_, { filters })
+        if (profile) profiles_id.push(profile.id)
       }
 
       delete data.profiles
+
+      const salt = bcrypt.genSaltSync()
+      data.password = bcrypt.hashSync(data.password, salt)
 
       const [ user_id ] = await knex.insert(data).into('users')
 
@@ -77,6 +87,9 @@ module.exports = {
       }
 
       delete data.profiles
+      if (data.password) {
+        data.password = bcrypt.hashSync(data.password, bcrypt.genSaltSync())
+      }
       await knex('users').update({ ...data }).where({ id: user.id })
       return {...user, ...data}
       
@@ -88,3 +101,5 @@ module.exports = {
     }
   }
 }
+
+module.exports = mutations
