@@ -7,7 +7,6 @@ exports.up = function(knex) {
     return knex('profiles').insert([
       { name: 'comum', role: 'Comum' },
       { name: 'admin', role: 'Administrador' },
-      { name: 'master', role: 'Master' }
     ])
   })
 };

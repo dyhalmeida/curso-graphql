@@ -7,11 +7,6 @@ exports.up = function(knex) {
     table.boolean('vip').notNullable().defaultTo(true)
     table.string('password', 60).notNullable()
     table.timestamp('created_at').defaultTo(knex.fn.now())
-  }).then(() => {
-    return knex('users').insert([
-      { name: 'John', age: 30, email: 'john@email.com', password: '1234' },
-      { name: 'Emilia', age: 32, email: 'emilia@email.com', password: '1234' }      
-    ])
   })
 };
 
