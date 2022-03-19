@@ -3,6 +3,7 @@ type User {
   name: String!
   email: String
   age: Int!
+  token: String
   profiles: [Profile]
 }
 
@@ -29,12 +30,18 @@ input UserUpdateInput {
   profiles: [ProfileFilters]
 }
 
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
 input UserFilters {
   id: ID
   email: String
 }
 
 extend type Query {
+  login(data: UserLoginInput!): User
   users: [User!]
   user(filters: UserFilters!): User
 }
