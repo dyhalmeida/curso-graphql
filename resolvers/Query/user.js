@@ -15,14 +15,16 @@ module.exports = {
     return getUserLogged(user)
 
   },
-  users: () => {
+  users: (parent, args, ctx) => {
+    ctx && ctx.adminValidate()
     try {
       return knex.select('*').from('users')
     } catch (error) {
       throw new Error("Internal server error")  
     }
   },
-  user: (_, { filters }) => {
+  user: (_, { filters }, ctx) => {
+    ctx && ctx.filtersValidate(filters)
     try {
       if (!filters) return null
       if (filters.id) {

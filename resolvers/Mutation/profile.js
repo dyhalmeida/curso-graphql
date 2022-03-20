@@ -3,7 +3,10 @@ const knex = require('../../config/db')
 const { profile: showProfile } = require('../Query/profile')
 
 module.exports = {
-  createProfile: async (_, { data }) => {
+  createProfile: async (_, { data }, ctx) => {
+
+    ctx && ctx.adminValidate()
+
     try {
       const [id] = await knex.insert(data).into('profiles')
       return knex.select('*').from('profiles').where({ id }).first()
@@ -11,7 +14,8 @@ module.exports = {
       throw new Error(error.sqlMessage)
     }
   },
-  deleteProfile: async (_, { filters }) => {
+  deleteProfile: async (_, { filters }, ctx) => {
+    ctx && ctx.adminValidate()
     try {
 
       const profile = await showProfile(_, { filters })
@@ -29,7 +33,8 @@ module.exports = {
       throw new Error('Internal server error')
     } 
   },
-  updateProfile: async (_, { filters, data }) => {
+  updateProfile: async (_, { filters, data }, ctx) => {
+    ctx && ctx.adminValidate()
     try {
       const profile = await showProfile(_, { filters })
       if (!profile) return null

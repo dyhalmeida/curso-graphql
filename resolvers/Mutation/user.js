@@ -7,7 +7,8 @@ const mutations = {
   createPublicUser: async (_, { data }) => {
     return mutations.createUser(_, { data })
   },
-  createUser: async (_, { data }) => {
+  createUser: async (_, { data }, ctx) => {
+    ctx && ctx.adminValidate()
     try {
 
       const profiles_id = []
@@ -47,7 +48,8 @@ const mutations = {
       throw new Error('Internal server error')
     } 
   },
-  deleteUser: async (_, { filters }) => {
+  deleteUser: async (_, { filters }, ctx) => {
+    ctx && ctx.adminValidate()
     try {
 
       const user = await showUser(_, { filters })
@@ -65,14 +67,15 @@ const mutations = {
       throw new Error('Internal server error')
     } 
   },
-  updateUser: async (_, { filters, data }) => {
+  updateUser: async (_, { filters, data }, ctx) => {
+    ctx && ctx.filtersValidate(filters)
     try {
 
       const user = await showUser(_, { filters })
 
       if (!user) return null
 
-      if (data.profiles) {
+      if (ctx.admin && data.profiles) {
         await knex.delete().from('users_profiles').where({ user_id: user.id })
 
         for (const filters of data.profiles) {

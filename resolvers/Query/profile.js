@@ -1,14 +1,16 @@
 const knex = require('../../config/db')
 
 module.exports = {
-  profiles: async () => {
+  profiles: async (parent, args, ctx) => {
+    ctx && ctx.adminValidate()
     try {
       return await knex.select('*').from('profiles')
     } catch (error) {
       throw new Error("Internal server error")  
     }
   },
-  profile: async (_, { filters }) => {
+  profile: async (_, { filters }, ctx) => {
+    ctx && ctx.adminValidate()
     try {
       if (!filters) return null
       if (filters.id) {
